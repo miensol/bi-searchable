@@ -1,0 +1,25 @@
+{
+  "name": "bi-searchable",
+  "version": "0.1.0",
+  "authors": [
+    "Piotr Mionskowski <piotr.mionskowski@gmail.com>"
+  ],
+  "description": "Angular directive that allows searching through elements",
+  "main": "searchable.js",
+  "keywords": [
+    "angular",
+    "directive",
+    "search"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.2"
+  }
+}
