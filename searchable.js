@@ -28,12 +28,18 @@
 
     var module = angular.module('bi-searchable', []),
         logError = function () {
+          console.error(arguments);
         },
         arrayRemove = function (array, element) {
             var index;
             while ((index = array.indexOf(element)) != -1) {
                 array.splice(index, 1);
             }
+        },
+        toString = Object.prototype.toString,
+        isArray = function (value) {
+          return value && typeof value == 'object' && typeof value.length == 'number' &&
+        toString.call(value) == arrayClass || false
         },
         isEmpty = function (val) {
             return !val || !val.length
@@ -51,14 +57,12 @@
         };
     }).run(['$templateCache', function ($templateCache) {
         $templateCache.put('biSearchableInput.html', '<div class="input-group bi-searchable-input">' +
-            '<span class="input-group-btn">' +
-            '<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>' +
+            '<span class="input-group-addon">' +
+            '<i class="glyphicon glyphicon-search"></i>' +
             '</span>' +
             ' <input ng-model="ngModel" type="search" class="form-control" placeholder="{{placeholder}}">' +
-            '<span class="input-group-btn">' +
-            '<button class="btn btn-default" ng-disabled="!ngModel.length" type="button" ng-click="ngModel = \'\'">' +
-            '<i class="fa fa-close"></i>' +
-            '</button>' +
+            '<span class="input-group-addon" ng-disabled="!ngModel.length" type="button" ng-click="ngModel = \'\'">' +
+            '<i class="glyphicon glyphicon-remove-sign"></i>' +
             '</span>' +
             '</div>')
     }]);
@@ -201,7 +205,7 @@
                     logError('searchable container not found!!', $element);
                     return;
                 }
-                var searchableElementModel = $attrs.searchableElement;
+                var searchableElementModel = $attrs.biSearchableElement;
                 if (!searchableElementModel) {
                     logError('searchable element attribute not defined', $element, $attrs);
                     return;
@@ -212,7 +216,7 @@
                 var contentGetter = $parse(searchableElementModel);
                 $scope.$watch(contentGetter, function (newValue) {
                     if (newValue) {
-                        if (!_.isArray(newValue)) {
+                        if (!isArray(newValue)) {
                             newValue = [newValue];
                         }
                     } else {
